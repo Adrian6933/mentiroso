@@ -1,0 +1,40 @@
+---
+import BotonTema from '../islands/BotonTema';
+
+const ruta = Astro.url.pathname.replace(/\/$/, '') || '/';
+
+// Mapeo de títulos dinámicos según la ruta actual
+const TITULOS: Record<string, string> = {
+  '/local': 'Partida Local',
+  '/online': 'Partida Online',
+  '/como-jugar': 'Cómo Jugar',
+  '/packs': 'Paquetes',
+  '/ajustes': 'Ajustes',
+  '/sala': 'Sala de Juego',
+};
+
+const titulo = TITULOS[ruta] || 'El Mentiroso';
+---
+
+<header class="sticky top-0 z-20 border-b border-borde/40 bg-fondo/80 backdrop-blur-md select-none">
+  <div class="flex items-center justify-between w-full px-4 py-3">
+    <!-- Botón de volver al inicio -->
+    <a
+      href="/"
+      class="tactil flex size-10 items-center justify-center rounded-full bg-superficie/80 border border-borde/30 shadow-md text-lg hover:bg-superficie-2/80 text-texto"
+      aria-label="Volver al menú principal"
+    >
+      ←
+    </a>
+    
+    <!-- Título centrado -->
+    <span class="font-black text-texto text-base tracking-wide">
+      {titulo}
+    </span>
+    
+    <!-- Botón de ajustes de tema -->
+    <div class="flex items-center gap-1">
+      <BotonTema client:load />
+    </div>
+  </div>
+</header>

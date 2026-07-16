@@ -1,0 +1,15 @@
+---
+import Cabecera from '../components/Cabecera.astro';
+import Base from '../layouts/Base.astro';
+import PacksEditor from '../islands/PacksEditor';
+---
+
+<Base titulo="Packs de palabras — El Mentiroso">
+  <Cabecera />
+  <main class="w-full px-4 py-6">
+    <p class="mb-6 text-sm text-texto-2">
+      Crea packs con tus propios famosos o palabras, impórtalos y compártelos con quien quieras.
+    </p>
+    <PacksEditor client:only="react" />
+  </main>
+</Base>

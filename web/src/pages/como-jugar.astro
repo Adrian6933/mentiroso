@@ -1,0 +1,90 @@
+---
+import Cabecera from '../components/Cabecera.astro';
+import Base from '../layouts/Base.astro';
+
+const roles = [
+  { emoji: '🙂', nombre: 'Civil', color: 'var(--verde)', desc: 'Recibe la palabra secreta (el famoso). Su misión: dar pistas lo bastante claras para demostrar que la conoce, pero lo bastante crípticas para no regalársela al mentiroso. Gana si el grupo elimina a los impostores.' },
+  { emoji: '🤥', nombre: 'Mentiroso', color: 'var(--rojo)', desc: 'No recibe nada. Tiene que improvisar pistas creíbles a partir de lo que dicen los demás. Gana si sobrevive a la votación… o si, al ser pillado, adivina la palabra secreta.' },
+  { emoji: '🕵️', nombre: 'Infiltrado', color: 'var(--ambar)', desc: 'Recibe una palabra PARECIDA a la de los demás (ej.: todos tienen «Messi» y él «Cristiano»)… y no sabe que es el infiltrado. Gana si sobrevive.' },
+  { emoji: '🤡', nombre: 'Payaso', color: 'var(--ambar)', desc: 'Conoce la palabra, pero solo gana si consigue que el grupo lo vote a él. Sembrar sospechas sobre sí mismo sin pasarse es todo un arte.' },
+  { emoji: '🤝', nombre: 'Cómplice', color: 'var(--rosa)', desc: 'Conoce la palabra Y sabe quién es el mentiroso. Gana con el mentiroso: su trabajo es protegerlo desviando las sospechas.' },
+  { emoji: '🔮', nombre: 'Vidente', color: 'var(--cian)', desc: 'Conoce la palabra y además ve el rol de un jugador al azar al empezar. Información valiosísima… si consigue que le crean.' },
+];
+---
+
+<Base titulo="Cómo jugar — El Mentiroso">
+  <Cabecera />
+  <main class="w-full px-4 py-6">
+    <section class="mt-2">
+      <h2 class="text-2xl font-black">El juego básico</h2>
+      <ol class="mt-4 flex flex-col gap-4">
+        <li class="rounded-3xl border border-borde bg-superficie p-5">
+          <h3 class="font-bold">1 · Reparto secreto</h3>
+          <p class="mt-1 text-texto-2 text-pretty">
+            La app le enseña a cada jugador su carta en secreto. Todos ven el mismo famoso
+            (o palabra)… menos el mentiroso, que solo ve «Eres el mentiroso».
+          </p>
+        </li>
+        <li class="rounded-3xl border border-borde bg-superficie p-5">
+          <h3 class="font-bold">2 · Ronda de pistas</h3>
+          <p class="mt-1 text-texto-2 text-pretty">
+            Por turnos, cada jugador dice UNA palabra relacionada con el famoso. Prohibido decir
+            el nombre, hacer gestos o repetir pistas. El mentiroso tiene que inventarse algo
+            creíble a partir de lo que oye.
+          </p>
+        </li>
+        <li class="rounded-3xl border border-borde bg-superficie p-5">
+          <h3 class="font-bold">3 · Debate</h3>
+          <p class="mt-1 text-texto-2 text-pretty">
+            ¿Quién ha dicho una pista rara? ¿Quién ha dudado demasiado? Acusad, defended
+            y dejad que el mentiroso se hunda solo (o se salve mintiendo mejor).
+          </p>
+        </li>
+        <li class="rounded-3xl border border-borde bg-superficie p-5">
+          <h3 class="font-bold">4 · Votación y revelación</h3>
+          <p class="mt-1 text-texto-2 text-pretty">
+            Todos votan. El más votado revela su carta. Si era el mentiroso, aún tiene una
+            última bala: adivinar la palabra secreta para robar la victoria. Si era inocente…
+            los mentirosos ganan.
+          </p>
+        </li>
+      </ol>
+    </section>
+
+    <section class="mt-10">
+      <h2 class="text-2xl font-black">Los roles</h2>
+      <div class="mt-4 grid gap-4 sm:grid-cols-2">
+        {
+          roles.map((r) => (
+            <div class="rounded-3xl border border-borde bg-superficie p-5">
+              <h3 class="flex items-center gap-2 font-bold" style={`color: ${r.color}`}>
+                <span aria-hidden>{r.emoji}</span> {r.nombre}
+              </h3>
+              <p class="mt-1 text-sm text-texto-2 text-pretty">{r.desc}</p>
+            </div>
+          ))
+        }
+      </div>
+    </section>
+
+    <section class="mt-10">
+      <h2 class="text-2xl font-black">Consejos para mentir mejor</h2>
+      <ul class="mt-4 flex list-disc flex-col gap-2 pl-5 text-texto-2">
+        <li>Si eres el mentiroso, no repitas la pista de otro: canta muchísimo.</li>
+        <li>Las pistas demasiado genéricas («persona», «famoso») te delatan igual que las inventadas.</li>
+        <li>Si eres civil, guarda tu mejor pista para la segunda ronda: dársela al mentiroso en la primera es regalarle la partida.</li>
+        <li>Observa los tiempos: quien tarda en responder suele estar improvisando.</li>
+        <li>En modo preguntas, responde rápido aunque no tengas ni idea. La duda mata.</li>
+      </ul>
+    </section>
+
+    <div class="mt-10 flex flex-col gap-3 sm:flex-row">
+      <a href="/local" class="tactil btn-brillo inline-flex min-h-14 flex-1 items-center justify-center rounded-2xl bg-[linear-gradient(115deg,var(--brand),var(--rosa))] px-6 text-lg font-bold text-white shadow-lg shadow-brand/30 hover:brightness-110 dark:text-[#14101f]">
+        📱 Jugar en local
+      </a>
+      <a href="/online" class="tactil inline-flex min-h-14 flex-1 items-center justify-center rounded-2xl border border-borde bg-superficie/75 px-6 text-lg font-bold backdrop-blur-md hover:border-brand/50">
+        🌐 Jugar online
+      </a>
+    </div>
+  </main>
+</Base>

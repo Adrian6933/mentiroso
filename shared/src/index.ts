@@ -1,0 +1,10 @@
+export * from './types.js';
+export * from './engine/config.js';
+export * from './engine/crear.js';
+export * from './engine/reducer.js';
+export * from './engine/vista.js';
+export * from './engine/rng.js';
+export * from './engine/texto.js';
+export * from './data/packs.js';
+export { es } from './i18n/es.js';
+export type { Diccionario } from './i18n/es.js';

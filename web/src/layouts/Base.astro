@@ -1,0 +1,54 @@
+---
+import '@fontsource-variable/outfit';
+import '../styles/global.css';
+
+interface Props {
+  titulo?: string;
+  descripcion?: string;
+}
+
+const {
+  titulo = 'El Mentiroso — el juego del impostor de famosos',
+  descripcion = 'El juego viral de TikTok: todos reciben un famoso menos el mentiroso. Pistas, debate y votación. Juega gratis en local o online con amigos, sin registro.',
+} = Astro.props;
+---
+
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="description" content={descripcion} />
+    <meta property="og:title" content={titulo} />
+    <meta property="og:description" content={descripcion} />
+    <meta property="og:type" content="website" />
+    <meta name="theme-color" content="#0d0a15" />
+    <title>{titulo}</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🤥</text></svg>" />
+    <script is:inline>
+      // Aplica el tema antes del primer pintado para evitar parpadeo.
+      (() => {
+        let tema = 'oscuro';
+        try {
+          const guardado = JSON.parse(localStorage.getItem('mentiroso-ajustes') || '{}');
+          if (guardado.state && guardado.state.tema) tema = guardado.state.tema;
+        } catch {}
+        const oscuro =
+          tema === 'oscuro' ||
+          (tema === 'sistema' && matchMedia('(prefers-color-scheme: dark)').matches);
+        document.documentElement.classList.toggle('dark', oscuro);
+        try {
+          const guardado = JSON.parse(localStorage.getItem('mentiroso-ajustes') || '{}');
+          if (guardado.state && guardado.state.reducirAnimaciones) {
+            document.documentElement.classList.add('sin-animaciones');
+          }
+        } catch {}
+      })();
+    </script>
+  </head>
+  <body>
+    <div class="app-viewport">
+      <slot />
+    </div>
+  </body>
+</html>

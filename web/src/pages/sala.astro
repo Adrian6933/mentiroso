@@ -1,0 +1,10 @@
+---
+import Base from '../layouts/Base.astro';
+import SalaOnline from '../islands/online/SalaOnline';
+---
+
+<Base titulo="Sala — El Mentiroso">
+  <main class="min-h-dvh">
+    <SalaOnline client:only="react" />
+  </main>
+</Base>

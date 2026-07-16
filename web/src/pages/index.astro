@@ -1,0 +1,172 @@
+---
+import Cabecera from '../components/Cabecera.astro';
+import Base from '../layouts/Base.astro';
+
+const modos = [
+  { img: 'lying_face', nombre: 'Clásico', desc: 'Todos reciben el famoso menos el mentiroso. Pistas, debate y votación.' },
+  { img: 'detective', nombre: 'Infiltrado', desc: 'Uno tiene un famoso parecido… y ni siquiera lo sabe.' },
+  { img: 'performing_arts', nombre: 'Mixto', desc: 'Mentirosos e infiltrados a la vez, con eliminación por rondas.' },
+  { img: 'question', nombre: 'Preguntas', desc: 'La app lanza preguntas sobre el famoso. El formato viral de TikTok.' },
+  { img: 'cyclone', nombre: 'Caos', desc: 'Payaso, cómplice, vidente… roles ocultos que lo lían todo.' },
+  { img: 'tools', nombre: 'Personalizado', desc: 'Decenas de ajustes para jugarlo exactamente a tu manera.' },
+];
+
+const pasos = [
+  { n: '1', titulo: 'Reparte las cartas', desc: 'Todos reciben el mismo famoso en secreto… menos el mentiroso, que no recibe nada.' },
+  { n: '2', titulo: 'Da tu pista', desc: 'Por turnos, cada uno dice una palabra relacionada. El mentiroso improvisa para no ser pillado.' },
+  { n: '3', titulo: 'Debatid y votad', desc: 'Acusaciones, sospechas y risas. Votad a quien creáis que no tiene ni idea.' },
+  { n: '4', titulo: 'La revelación', desc: 'Si pilláis al mentiroso, aún puede robar la victoria adivinando el famoso…' },
+];
+---
+
+<Base>
+  <main class="flex-1 flex flex-col px-4 pt-6 pb-6 select-none">
+    <!-- Barra de herramientas superior estilo App -->
+    <div class="flex items-center justify-between w-full mb-6">
+      <a href="/ajustes" class="tactil flex size-11 items-center justify-center rounded-full bg-superficie/80 border border-borde/30 shadow-md text-xl hover:bg-superficie-2/80" aria-label="Ajustes">
+        ⚙️
+      </a>
+      <div class="relative flex items-center justify-center">
+        <!-- Espacio central balanceador -->
+      </div>
+      <div class="flex items-center gap-2">
+        <a href="/como-jugar" class="tactil flex size-11 items-center justify-center rounded-full bg-superficie/80 border border-borde/30 shadow-md text-xl hover:bg-superficie-2/80 relative" aria-label="Notificaciones">
+          🔔
+          <span class="absolute top-0 right-0 flex size-5 translate-x-1/4 -translate-y-1/4 items-center justify-center rounded-full bg-rojo text-[10px] font-black text-white ring-2 ring-fondo animate-pulse">1</span>
+        </a>
+        <a href="/como-jugar" class="tactil flex size-11 items-center justify-center rounded-full bg-superficie/80 border border-borde/30 shadow-md text-xl hover:bg-superficie-2/80" aria-label="Ayuda">
+          ❓
+        </a>
+      </div>
+    </div>
+
+    <!-- Hero con el Avatar del Impostor con Máscara -->
+    <section class="flex flex-col items-center text-center mb-6">
+      <div class="relative">
+        <img
+          src="/avatar_impostor.png"
+          alt="Impostor"
+          class="w-36 h-36 object-contain drop-shadow-[0_16px_36px_rgba(138,92,255,0.45)] hover:scale-105 transition-transform duration-300"
+        />
+      </div>
+      <h1 class="text-5xl font-black tracking-tight mt-3 text-amber font-display drop-shadow-[0_2px_8px_rgba(245,158,11,0.25)]" style="color: #f59e0b;">
+        Impostor
+      </h1>
+    </section>
+
+    <!-- Subtítulo de selección -->
+    <p class="text-center font-extrabold text-base text-texto-2/95 mb-4">¿Cómo quieres jugar?</p>
+
+    <!-- Botones de juego principales (Offline / Online) -->
+    <div class="grid grid-cols-2 gap-3 w-full mb-6">
+      <a href="/local" class="tactil btn-brillo group flex flex-col items-center justify-between min-h-60 rounded-[28px] bg-gradient-to-b from-[#8b5cf6] to-[#6d28d9] p-5 text-white shadow-xl shadow-[#6d28d9]/35 hover:shadow-2xl hover:shadow-[#6d28d9]/45 hover:brightness-105 border border-white/10">
+        <div class="flex-1 flex items-center justify-center my-2">
+          <!-- Teléfono con flechas circulares rotatorias -->
+          <div class="relative flex items-center justify-center">
+            <span class="text-5xl drop-shadow-md select-none group-hover:scale-110 group-hover:-rotate-6 transition-transform duration-300">📱</span>
+            <span class="absolute -inset-3 rounded-full border-2 border-dashed border-white/25 animate-[spin_20s_linear_infinite]" aria-hidden></span>
+          </div>
+        </div>
+        <div class="text-center w-full">
+          <span class="block text-xl font-black">Offline</span>
+          <span class="block text-[11px] font-semibold text-white/80 leading-tight mt-1 max-w-[130px] mx-auto">Todos juegan en el mismo dispositivo</span>
+          <span class="inline-block mt-3 rounded-full bg-white/20 px-6 py-1.5 text-xs font-black backdrop-blur-md">Jugar</span>
+        </div>
+      </a>
+
+      <a href="/online" class="tactil btn-brillo group flex flex-col items-center justify-between min-h-60 rounded-[28px] bg-gradient-to-b from-[#059669] to-[#047857] p-5 text-white shadow-xl shadow-[#047857]/35 hover:shadow-2xl hover:shadow-[#047857]/45 hover:brightness-105 border border-white/10">
+        <div class="flex-1 flex items-center justify-center my-2">
+          <div class="relative flex items-center justify-center">
+            <span class="text-5xl drop-shadow-md select-none group-hover:scale-110 group-hover:rotate-6 transition-transform duration-300">🌐</span>
+          </div>
+        </div>
+        <div class="text-center w-full">
+          <span class="block text-xl font-black">Online</span>
+          <span class="block text-[11px] font-semibold text-white/80 leading-tight mt-1 max-w-[130px] mx-auto">Juega con amigos o con el mundo</span>
+          <span class="inline-block mt-3 rounded-full bg-white/20 px-6 py-1.5 text-xs font-black backdrop-blur-md">Jugar</span>
+        </div>
+      </a>
+    </div>
+
+    <!-- Filas de menú estilo app móvil -->
+    <div class="flex flex-col gap-3 w-full mb-6">
+      <a href="/packs" class="tactil flex items-center gap-4 rounded-3xl border border-borde bg-superficie/75 p-4 shadow-md hover:border-brand/50 hover:shadow-lg hover:shadow-brand/10">
+        <div class="relative size-12 shrink-0">
+          <div class="absolute inset-y-1.5 left-1.5 right-3.5 rounded-lg bg-red-500 shadow-sm rotate-6 transform transition-transform duration-300"></div>
+          <div class="absolute inset-y-1.5 left-3.5 right-1.5 rounded-lg bg-yellow-400 shadow-sm -rotate-6 transform transition-transform duration-300"></div>
+          <span class="absolute inset-0 flex items-center justify-center text-xl">🎴</span>
+        </div>
+        <div class="flex-1 text-left">
+          <span class="block text-base font-extrabold">Paquetes</span>
+          <span class="block text-xs text-texto-2">Toda la colección y los tuyos</span>
+        </div>
+        <span class="text-xl text-texto-2/70 font-semibold">›</span>
+      </a>
+
+      <a href="/como-jugar" class="tactil flex items-center gap-4 rounded-3xl border border-borde bg-superficie/75 p-4 shadow-md hover:border-brand/50 hover:shadow-lg hover:shadow-brand/10">
+        <div class="relative size-12 shrink-0 bg-brand-suave/80 rounded-2xl flex items-center justify-center border border-brand/20">
+          <span class="text-2xl">🎲</span>
+        </div>
+        <div class="flex-1 text-left">
+          <span class="block text-base font-extrabold">Más Juegos</span>
+          <span class="block text-xs text-texto-2">Directo de nuestro estudio para ti ♥</span>
+        </div>
+        <span class="text-xl text-texto-2/70 font-semibold">›</span>
+      </a>
+    </div>
+
+    <p class="text-center text-xs font-bold text-texto-2/70 mb-8">
+      ✦ Gratis y sin registro · 3 a 20 jugadores · el juego viral de TikTok
+    </p>
+
+    <!-- Secciones informativas ajustadas al viewport de la App -->
+    <!-- Cómo se juega -->
+    <section class="border-t border-borde/50 pt-8 pb-6">
+      <h2 class="mb-5 text-center text-xl font-black">Así se juega</h2>
+      <div class="flex flex-col gap-3">
+        {
+          pasos.map((p) => (
+            <div class="group flex items-start gap-3 rounded-2xl border border-borde bg-superficie/60 p-4">
+              <span class="grid size-8 place-items-center rounded-lg bg-gradient-to-r from-brand to-rosa text-sm font-black text-white shrink-0">
+                {p.n}
+              </span>
+              <div class="flex-1">
+                <h3 class="font-bold text-sm mb-0.5">{p.titulo}</h3>
+                <p class="text-xs text-texto-2 leading-relaxed">{p.desc}</p>
+              </div>
+            </div>
+          ))
+        }
+      </div>
+      <p class="mt-4 text-center">
+        <a href="/como-jugar" class="text-xs font-bold text-brand hover:underline">Reglas completas y roles →</a>
+      </p>
+    </section>
+
+    <!-- Modos de juego -->
+    <section class="border-t border-borde/50 pt-8 pb-6">
+      <h2 class="mb-1 text-center text-xl font-black">6 modos de juego</h2>
+      <p class="mb-5 text-center text-xs text-texto-2">Y decenas de ajustes para personalizarlo todo</p>
+      <div class="grid grid-cols-2 gap-3">
+        {
+          modos.map((m) => (
+            <div class="group rounded-2xl border border-borde bg-superficie/60 p-4 text-center flex flex-col items-center">
+              <img src={`/emoji3d/${m.img}.png`} alt="" aria-hidden class="w-10 drop-shadow-md mb-2 transition-transform duration-200 group-hover:scale-110" />
+              <h3 class="font-bold text-xs mb-1">{m.nombre}</h3>
+              <p class="text-[10px] text-texto-2 leading-tight">{m.desc}</p>
+            </div>
+          ))
+        }
+      </div>
+    </section>
+
+    <footer class="border-t border-borde/50 pt-6 pb-2 text-center text-xs text-texto-2">
+      <p class="mb-2">🤥 El Mentiroso</p>
+      <nav class="flex justify-center gap-4 text-[11px]" aria-label="Pie de página">
+        <a href="/como-jugar" class="hover:text-texto">Cómo jugar</a>
+        <a href="/packs" class="hover:text-texto">Packs</a>
+        <a href="/ajustes" class="hover:text-texto">Ajustes</a>
+      </nav>
+    </footer>
+  </main>
+</Base>

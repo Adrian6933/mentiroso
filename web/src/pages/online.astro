@@ -1,0 +1,12 @@
+---
+import Cabecera from '../components/Cabecera.astro';
+import Base from '../layouts/Base.astro';
+import OnlineHome from '../islands/online/OnlineHome';
+---
+
+<Base titulo="Jugar online — El Mentiroso">
+  <Cabecera />
+  <main class="min-h-dvh">
+    <OnlineHome client:only="react" />
+  </main>
+</Base>

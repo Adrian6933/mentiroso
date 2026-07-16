@@ -1,0 +1,12 @@
+---
+import Cabecera from '../components/Cabecera.astro';
+import Base from '../layouts/Base.astro';
+import AjustesGenerales from '../islands/AjustesGenerales';
+---
+
+<Base titulo="Ajustes — El Mentiroso">
+  <Cabecera />
+  <main class="w-full px-4 py-6">
+    <AjustesGenerales client:only="react" />
+  </main>
+</Base>

@@ -1,0 +1,10 @@
+---
+import Base from '../layouts/Base.astro';
+import JuegoLocal from '../islands/local/JuegoLocal';
+---
+
+<Base titulo="Partida local — El Mentiroso">
+  <main class="min-h-dvh">
+    <JuegoLocal client:only="react" />
+  </main>
+</Base>
