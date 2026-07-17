@@ -8,7 +8,7 @@ export function clases(...xs: (string | false | null | undefined)[]): string {
 }
 
 // ── Botón ──────────────────────────────────────────────────────────
-type VarianteBoton = 'primario' | 'secundario' | 'fantasma' | 'peligro';
+type VarianteBoton = 'primario' | 'secundario' | 'fantasma' | 'peligro' | 'exito';
 
 const ESTILOS_BOTON: Record<VarianteBoton, string> = {
   primario:
@@ -17,6 +17,9 @@ const ESTILOS_BOTON: Record<VarianteBoton, string> = {
     'bg-superficie-2 text-texto font-semibold border border-borde hover:border-brand/50 hover:shadow-md hover:shadow-brand/10',
   fantasma: 'text-texto-2 font-semibold hover:text-texto hover:bg-superficie-2',
   peligro: 'bg-rojo/10 text-rojo font-semibold border border-rojo/30 hover:bg-rojo/20',
+  // verde tipo app de referencia, pensado para fondos oscuros/morados
+  exito:
+    'btn-brillo bg-[linear-gradient(115deg,#2fd267,#16a34a)] text-white font-black shadow-lg shadow-black/25 hover:brightness-110 disabled:shadow-none',
 };
 
 export function Boton({

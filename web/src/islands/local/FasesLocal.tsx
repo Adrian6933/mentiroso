@@ -47,30 +47,30 @@ export function RepartoLocal({ partida }: { partida: GameState }) {
   const esUltimo = partida.repartoIdx === partida.jugadores.length - 1;
 
   return (
-    <div className="fixed inset-0 z-50 bg-[#7c3aed] text-white flex flex-col justify-between py-6 px-4 select-none anim-aparecer">
-      {/* Header bar estilo captura 3 */}
-      <div className="flex items-center justify-between w-full max-w-xs mx-auto">
+    <div className="fondo-reparto anim-aparecer fixed inset-0 z-50 flex flex-col overflow-y-auto px-4 py-5 text-white select-none">
+      {/* cabecera mínima, como la app de referencia */}
+      <div className="mx-auto flex w-full max-w-sm items-center justify-between">
         <button
           type="button"
           onClick={() => setViendoCarta(false)}
-          className="tactil flex size-10 items-center justify-center rounded-full bg-white/10 hover:bg-white/20 text-white font-bold"
+          className="tactil flex size-10 items-center justify-center rounded-full bg-white/10 font-bold text-white hover:bg-white/20"
           aria-label="Cerrar"
         >
           ✕
         </button>
-        <span className="font-extrabold text-white/95 text-base tracking-wide">Jugador</span>
+        <span className="text-base font-extrabold tracking-wide text-white/90">Jugador</span>
         <a
           href="/como-jugar"
           target="_blank"
-          className="tactil flex size-10 items-center justify-center rounded-full bg-white/10 hover:bg-white/20 text-white font-bold"
+          rel="noopener"
+          className="tactil flex size-10 items-center justify-center rounded-full bg-white/10 font-bold text-white hover:bg-white/20"
           aria-label="Ayuda"
         >
           ?
         </a>
       </div>
 
-      {/* Contenedor central de la carta */}
-      <div className="flex-1 flex flex-col justify-center items-center my-4 w-full">
+      <div className="mx-auto flex w-full max-w-sm flex-1 flex-col items-center justify-center py-4">
         <Carta
           datos={datosCartaDe(partida, jugador)}
           nombre={jugador.nombre}
@@ -78,12 +78,13 @@ export function RepartoLocal({ partida }: { partida: GameState }) {
         />
       </div>
 
-      <div className="w-full max-w-xs mx-auto flex flex-col items-center gap-2">
-        <div className="min-h-12 w-full">
+      <div className="mx-auto flex w-full max-w-sm flex-col items-center gap-2">
+        <div className="min-h-14 w-full">
           {cartaVista && (
             <Boton
               grande
-              className="anim-pop w-full bg-white text-[#7c3aed] hover:bg-white/90 hover:scale-[1.02] border-none shadow-xl font-black text-base transition-transform duration-150"
+              variante="exito"
+              className="anim-pop w-full"
               onClick={() => {
                 setViendoCarta(false);
                 accion({ tipo: 'cartaVista' });

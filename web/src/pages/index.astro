@@ -20,24 +20,15 @@ const pasos = [
 ---
 
 <Base>
-  <main class="flex-1 flex flex-col px-4 pt-6 pb-6 select-none">
+  <main class="mx-auto flex w-full max-w-lg flex-1 flex-col px-4 pt-6 pb-6 select-none lg:max-w-5xl">
     <!-- Barra de herramientas superior estilo App -->
     <div class="flex items-center justify-between w-full mb-6">
       <a href="/ajustes" class="tactil flex size-11 items-center justify-center rounded-full bg-superficie/80 border border-borde/30 shadow-md text-xl hover:bg-superficie-2/80" aria-label="Ajustes">
         ⚙️
       </a>
-      <div class="relative flex items-center justify-center">
-        <!-- Espacio central balanceador -->
-      </div>
-      <div class="flex items-center gap-2">
-        <a href="/como-jugar" class="tactil flex size-11 items-center justify-center rounded-full bg-superficie/80 border border-borde/30 shadow-md text-xl hover:bg-superficie-2/80 relative" aria-label="Notificaciones">
-          🔔
-          <span class="absolute top-0 right-0 flex size-5 translate-x-1/4 -translate-y-1/4 items-center justify-center rounded-full bg-rojo text-[10px] font-black text-white ring-2 ring-fondo animate-pulse">1</span>
-        </a>
-        <a href="/como-jugar" class="tactil flex size-11 items-center justify-center rounded-full bg-superficie/80 border border-borde/30 shadow-md text-xl hover:bg-superficie-2/80" aria-label="Ayuda">
-          ❓
-        </a>
-      </div>
+      <a href="/como-jugar" class="tactil flex size-11 items-center justify-center rounded-full bg-superficie/80 border border-borde/30 shadow-md text-xl hover:bg-superficie-2/80" aria-label="Cómo jugar">
+        ❓
+      </a>
     </div>
 
     <!-- Hero con el Avatar del Impostor con Máscara -->
@@ -45,12 +36,12 @@ const pasos = [
       <div class="relative">
         <img
           src="/avatar_impostor.png"
-          alt="Impostor"
-          class="w-36 h-36 object-contain drop-shadow-[0_16px_36px_rgba(138,92,255,0.45)] hover:scale-105 transition-transform duration-300"
+          alt="El Mentiroso"
+          class="w-36 h-36 lg:w-44 lg:h-44 object-contain drop-shadow-[0_16px_36px_rgba(138,92,255,0.45)] hover:scale-105 transition-transform duration-300"
         />
       </div>
-      <h1 class="text-5xl font-black tracking-tight mt-3 text-amber font-display drop-shadow-[0_2px_8px_rgba(245,158,11,0.25)]" style="color: #f59e0b;">
-        Impostor
+      <h1 class="texto-calido text-5xl lg:text-6xl font-black tracking-tight mt-3 font-display drop-shadow-[0_2px_8px_rgba(245,158,11,0.25)]">
+        El Mentiroso
       </h1>
     </section>
 
@@ -58,7 +49,7 @@ const pasos = [
     <p class="text-center font-extrabold text-base text-texto-2/95 mb-4">¿Cómo quieres jugar?</p>
 
     <!-- Botones de juego principales (Offline / Online) -->
-    <div class="grid grid-cols-2 gap-3 w-full mb-6">
+    <div class="mx-auto grid w-full grid-cols-2 gap-3 mb-6 lg:max-w-3xl lg:gap-5">
       <a href="/local" class="tactil btn-brillo group flex flex-col items-center justify-between min-h-60 rounded-[28px] bg-gradient-to-b from-[#8b5cf6] to-[#6d28d9] p-5 text-white shadow-xl shadow-[#6d28d9]/35 hover:shadow-2xl hover:shadow-[#6d28d9]/45 hover:brightness-105 border border-white/10">
         <div class="flex-1 flex items-center justify-center my-2">
           <!-- Teléfono con flechas circulares rotatorias -->
@@ -89,7 +80,7 @@ const pasos = [
     </div>
 
     <!-- Filas de menú estilo app móvil -->
-    <div class="flex flex-col gap-3 w-full mb-6">
+    <div class="mx-auto grid w-full gap-3 mb-6 lg:max-w-3xl lg:grid-cols-2">
       <a href="/packs" class="tactil flex items-center gap-4 rounded-3xl border border-borde bg-superficie/75 p-4 shadow-md hover:border-brand/50 hover:shadow-lg hover:shadow-brand/10">
         <div class="relative size-12 shrink-0">
           <div class="absolute inset-y-1.5 left-1.5 right-3.5 rounded-lg bg-red-500 shadow-sm rotate-6 transform transition-transform duration-300"></div>
@@ -108,8 +99,8 @@ const pasos = [
           <span class="text-2xl">🎲</span>
         </div>
         <div class="flex-1 text-left">
-          <span class="block text-base font-extrabold">Más Juegos</span>
-          <span class="block text-xs text-texto-2">Directo de nuestro estudio para ti ♥</span>
+          <span class="block text-base font-extrabold">Cómo jugar</span>
+          <span class="block text-xs text-texto-2">Reglas, roles especiales y consejos</span>
         </div>
         <span class="text-xl text-texto-2/70 font-semibold">›</span>
       </a>
@@ -123,7 +114,7 @@ const pasos = [
     <!-- Cómo se juega -->
     <section class="border-t border-borde/50 pt-8 pb-6">
       <h2 class="mb-5 text-center text-xl font-black">Así se juega</h2>
-      <div class="flex flex-col gap-3">
+      <div class="grid gap-3 md:grid-cols-2 md:gap-4">
         {
           pasos.map((p) => (
             <div class="group flex items-start gap-3 rounded-2xl border border-borde bg-superficie/60 p-4">
@@ -147,7 +138,7 @@ const pasos = [
     <section class="border-t border-borde/50 pt-8 pb-6">
       <h2 class="mb-1 text-center text-xl font-black">6 modos de juego</h2>
       <p class="mb-5 text-center text-xs text-texto-2">Y decenas de ajustes para personalizarlo todo</p>
-      <div class="grid grid-cols-2 gap-3">
+      <div class="grid grid-cols-2 gap-3 md:grid-cols-3 md:gap-4">
         {
           modos.map((m) => (
             <div class="group rounded-2xl border border-borde bg-superficie/60 p-4 text-center flex flex-col items-center">
