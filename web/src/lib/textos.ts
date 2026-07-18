@@ -40,6 +40,7 @@ const ES = {
     anadirJugador: 'Añadir jugador',
     nombrePlaceholder: 'Nombre…',
     minJugadores: 'Añade al menos 3 jugadores',
+    presetsTitulo: 'Empezar rápido',
     elegirModo: 'Modo de juego',
     packsTitulo: 'Packs de palabras',
     ajustesTitulo: 'Ajustes de partida',
@@ -66,6 +67,8 @@ const ES = {
   },
   pistas: {
     titulo: 'Ronda de pistas',
+    empieza: 'empieza.',
+    preparate: '¡Prepárate!',
     turnoDe: 'Le toca a',
     daUnaPista: 'Di una palabra relacionada con tu secreto',
     escribePista: 'Escribe tu pista…',
@@ -94,6 +97,7 @@ const ES = {
     empateRepite: '¡Empate! Se repite la votación',
   },
   revelacion: {
+    expuestoEn: 'Expuesto en…',
     eliminado: 'ha sido eliminado',
     nadieEliminado: 'Empate: nadie ha sido eliminado',
     era: 'era…',

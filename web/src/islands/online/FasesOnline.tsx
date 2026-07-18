@@ -2,6 +2,7 @@ import type { GameState, JugadorPartida } from '@mentiroso/shared';
 import { useEffect, useMemo, useState } from 'react';
 import { Emoji3D } from '../../components/Emoji3D';
 import { Carta } from '../../components/juego/Carta';
+import { CuentaAtras } from '../../components/juego/CuentaAtras';
 import { Temporizador } from '../../components/juego/Temporizador';
 import { Avatar, Boton, clases, Insignia, Panel } from '../../components/ui';
 import { COLOR_ROL, datosCartaDe } from '../../lib/carta';
@@ -93,18 +94,30 @@ function TableroPistas({ partida }: { partida: GameState }) {
 export function PistasOnline({ partida, tuId, esHost }: PropsFase) {
   const { accion } = useSala();
   const [texto, setTexto] = useState('');
+  const [preparado, setPreparado] = useState(partida.ronda > 1 || partida.pistas.length > 0);
   const turnoDe = jugadorPorId(partida, partida.ordenTurnos[partida.turnoIdx]);
   const esMiTurno = turnoDe?.id === tuId;
   const esPregunta = partida.config.estiloPistas === 'preguntas' && partida.preguntaActual;
 
   useEffect(() => {
-    if (esMiTurno) {
+    if (esMiTurno && preparado) {
       sfx.tension();
       vibrar([40, 60, 40]);
     }
-  }, [esMiTurno]);
+  }, [esMiTurno, preparado]);
 
   if (!turnoDe) return null;
+
+  if (!preparado) {
+    return (
+      <CuentaAtras
+        titulo={`${turnoDe.nombre} ${t.pistas.empieza}`}
+        subtitulo={t.pistas.preparate}
+        calido
+        onFin={() => setPreparado(true)}
+      />
+    );
+  }
 
   function enviar(pista: string) {
     accion({ tipo: 'enviarPista', jugadorId: tuId, texto: pista.trim() });
@@ -187,7 +200,7 @@ export function DebateOnline({ partida, esHost }: PropsFase) {
         <h2 className="text-3xl font-black">{t.debate.titulo}</h2>
         <p className="mt-1 max-w-sm text-texto-2">{t.debate.subtitulo}</p>
       </div>
-      <Temporizador segundos={partida.config.segundosDebate} clave="debate" />
+      <Temporizador grande segundos={partida.config.segundosDebate} clave="debate" />
       <TableroPistas partida={partida} />
       {esHost ? (
         <Boton grande className="w-full max-w-xs" onClick={() => accion({ tipo: 'irAVotacion' })}>
@@ -309,24 +322,21 @@ export function VotacionOnline({ partida, tuId, esHost }: PropsFase) {
 // ── Revelación ─────────────────────────────────────────────────────
 export function RevelacionOnline({ partida, esHost }: PropsFase) {
   const { accion } = useSala();
-  const [revelado, setRevelado] = useState(false);
   const eliminado = jugadorPorId(partida, partida.ultimoEliminadoId);
+  const [revelado, setRevelado] = useState(!eliminado);
 
   useEffect(() => {
-    if (!eliminado) {
-      setRevelado(true);
-      return;
-    }
-    sfx.redoble();
-    const timer = setTimeout(() => {
-      setRevelado(true);
-      vibrar([60, 40, 120]);
-      if (eliminado.rol === 'mentiroso' || eliminado.rol === 'infiltrado') sfx.exito();
-      else if (eliminado.rol === 'payaso') sfx.dramatico();
-      else sfx.fracaso();
-    }, 2000);
-    return () => clearTimeout(timer);
+    if (eliminado && !revelado) sfx.redoble();
   }, []);
+
+  function alExponer() {
+    if (!eliminado) return;
+    setRevelado(true);
+    vibrar([60, 40, 120]);
+    if (eliminado.rol === 'mentiroso' || eliminado.rol === 'infiltrado') sfx.exito();
+    else if (eliminado.rol === 'payaso') sfx.dramatico();
+    else sfx.fracaso();
+  }
 
   const botonContinuar = esHost ? (
     <Boton grande className="w-full max-w-xs" onClick={() => accion({ tipo: 'continuar' })}>
@@ -335,6 +345,10 @@ export function RevelacionOnline({ partida, esHost }: PropsFase) {
   ) : (
     <p className="text-sm text-texto-2">{t.online.anfitrionContinua}</p>
   );
+
+  if (eliminado && !revelado) {
+    return <CuentaAtras emoji="👀" titulo={t.revelacion.expuestoEn} onFin={alExponer} />;
+  }
 
   if (!eliminado) {
     return (

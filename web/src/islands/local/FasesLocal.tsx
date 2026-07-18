@@ -2,6 +2,7 @@ import { es, type GameState, type JugadorPartida } from '@mentiroso/shared';
 import { useEffect, useMemo, useState } from 'react';
 import { Emoji3D } from '../../components/Emoji3D';
 import { Carta } from '../../components/juego/Carta';
+import { CuentaAtras } from '../../components/juego/CuentaAtras';
 import { Temporizador } from '../../components/juego/Temporizador';
 import { Avatar, Boton, clases, Insignia, Panel } from '../../components/ui';
 import { COLOR_ROL, datosCartaDe } from '../../lib/carta';
@@ -131,8 +132,20 @@ export function ListaPistas({ partida }: { partida: GameState }) {
 export function PistasLocal({ partida }: { partida: GameState }) {
   const accion = usePartidaLocal((s) => s.accion);
   const [texto, setTexto] = useState('');
+  const [preparado, setPreparado] = useState(partida.ronda > 1 || partida.pistas.length > 0);
   const jugador = jugadorPorId(partida, partida.ordenTurnos[partida.turnoIdx]);
   if (!jugador) return null;
+
+  if (!preparado) {
+    return (
+      <CuentaAtras
+        titulo={`${jugador.nombre} ${t.pistas.empieza}`}
+        subtitulo={t.pistas.preparate}
+        calido
+        onFin={() => setPreparado(true)}
+      />
+    );
+  }
 
   function enviar(pista: string) {
     accion({ tipo: 'enviarPista', jugadorId: jugador!.id, texto: pista.trim() });
@@ -214,7 +227,7 @@ export function DebateLocal({ partida }: { partida: GameState }) {
         <h2 className="text-3xl font-black">{t.debate.titulo}</h2>
         <p className="mt-1 max-w-sm text-texto-2">{t.debate.subtitulo}</p>
       </div>
-      <Temporizador segundos={partida.config.segundosDebate} clave="debate" onFin={() => sfx.dramatico()} />
+      <Temporizador grande segundos={partida.config.segundosDebate} clave="debate" onFin={() => sfx.dramatico()} />
       <ListaPistas partida={partida} />
       <Boton grande className="w-full max-w-xs" onClick={() => accion({ tipo: 'irAVotacion' })}>
         🗳️ {t.debate.irAVotacion}
@@ -362,24 +375,25 @@ export function VotacionLocal({ partida }: { partida: GameState }) {
 // ── Revelación ─────────────────────────────────────────────────────
 export function RevelacionLocal({ partida }: { partida: GameState }) {
   const accion = usePartidaLocal((s) => s.accion);
-  const [revelado, setRevelado] = useState(false);
   const eliminado = jugadorPorId(partida, partida.ultimoEliminadoId);
+  const [revelado, setRevelado] = useState(!eliminado);
 
   useEffect(() => {
-    if (!eliminado) {
-      setRevelado(true);
-      return;
-    }
-    sfx.redoble();
-    const timer = setTimeout(() => {
-      setRevelado(true);
-      vibrar([60, 40, 120]);
-      if (eliminado.rol === 'mentiroso' || eliminado.rol === 'infiltrado') sfx.exito();
-      else if (eliminado.rol === 'payaso') sfx.dramatico();
-      else sfx.fracaso();
-    }, 2000);
-    return () => clearTimeout(timer);
+    if (eliminado && !revelado) sfx.redoble();
   }, []);
+
+  function alExponer() {
+    if (!eliminado) return;
+    setRevelado(true);
+    vibrar([60, 40, 120]);
+    if (eliminado.rol === 'mentiroso' || eliminado.rol === 'infiltrado') sfx.exito();
+    else if (eliminado.rol === 'payaso') sfx.dramatico();
+    else sfx.fracaso();
+  }
+
+  if (eliminado && !revelado) {
+    return <CuentaAtras emoji="👀" titulo={t.revelacion.expuestoEn} onFin={alExponer} />;
+  }
 
   if (!eliminado) {
     return (

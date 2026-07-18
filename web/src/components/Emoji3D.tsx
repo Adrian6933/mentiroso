@@ -59,6 +59,10 @@ const MAPA: Record<string, string> = {
   '🕵': 'detective',
   '🤝': 'handshake',
   '👆': 'backhand_index_pointing_up',
+  '🍿': 'popcorn',
+  '📺': 'television',
+  '🎮': 'video_game',
+  '🛒': 'shopping_cart',
 };
 
 // quita el selector de variante (U+FE0F) y el zero-width joiner (U+200D)

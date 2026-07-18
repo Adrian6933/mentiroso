@@ -1,14 +1,58 @@
-import { es } from '@mentiroso/shared';
+import { es, type GameConfig, type ModoJuego } from '@mentiroso/shared';
 import { useState } from 'react';
 import { AjustesPartida, SelectorModo, SelectorPacks } from '../../components/juego/AjustesPartida';
-import { Avatar, Boton, Panel } from '../../components/ui';
+import { Avatar, Boton, clases, Panel } from '../../components/ui';
+import { sfx } from '../../lib/sfx';
 import { t } from '../../lib/textos';
 import { todosLosPacks, usePartidaLocal } from '../../stores/partidaLocal';
+
+/** Presets de un toque: modo + tiempos, para empezar sin bucear en ajustes. */
+const PRESETS: {
+  id: string;
+  emoji: string;
+  nombre: string;
+  desc: string;
+  modo: ModoJuego;
+  extra: Partial<GameConfig>;
+}[] = [
+  {
+    id: 'rapida',
+    emoji: '⚡',
+    nombre: 'Rápida',
+    desc: '1 ronda, tiempos cortos',
+    modo: 'clasico',
+    extra: { rondasDePistas: 1, segundosPista: 15, segundosDebate: 60, segundosVotacion: 30 },
+  },
+  {
+    id: 'clasica',
+    emoji: '🎯',
+    nombre: 'Clásica',
+    desc: 'Sin prisas, debate largo',
+    modo: 'clasico',
+    extra: { rondasDePistas: 2, segundosPista: 0, segundosDebate: 240, segundosVotacion: 0 },
+  },
+  {
+    id: 'caos',
+    emoji: '🌀',
+    nombre: 'Caos total',
+    desc: 'Roles ocultos y eliminación',
+    modo: 'caos',
+    extra: { rondasDePistas: 2, segundosPista: 30, segundosDebate: 120, segundosVotacion: 45 },
+  },
+];
 
 export function ConfiguracionLocal() {
   const { jugadores, config, error, anadirJugador, quitarJugador, cambiarAvatar, setConfig, elegirModo, empezar, limpiarError } =
     usePartidaLocal();
   const [nombre, setNombre] = useState('');
+  const [presetActivo, setPresetActivo] = useState<string | null>(null);
+
+  function aplicarPreset(p: (typeof PRESETS)[number]) {
+    sfx.click();
+    elegirModo(p.modo);
+    setConfig(p.extra);
+    setPresetActivo(p.id);
+  }
 
   function enviarNombre() {
     if (nombre.trim()) {
@@ -92,10 +136,41 @@ export function ConfiguracionLocal() {
         </div>
       </Panel>
 
+      {/* presets de un toque */}
+      <Panel>
+        <h2 className="mb-3 text-lg font-bold">{t.local.presetsTitulo}</h2>
+        <div className="grid grid-cols-3 gap-2">
+          {PRESETS.map((p) => (
+            <button
+              key={p.id}
+              type="button"
+              aria-pressed={presetActivo === p.id}
+              onClick={() => aplicarPreset(p)}
+              className={clases(
+                'tactil flex flex-col items-center gap-1 rounded-2xl border px-2 py-3 text-center',
+                presetActivo === p.id
+                  ? 'border-brand bg-brand-suave shadow-md shadow-brand/15'
+                  : 'border-borde bg-superficie-2 hover:border-brand/50',
+              )}
+            >
+              <span className="text-2xl" aria-hidden>{p.emoji}</span>
+              <span className="text-sm font-extrabold">{p.nombre}</span>
+              <span className="text-[11px] leading-tight text-texto-2">{p.desc}</span>
+            </button>
+          ))}
+        </div>
+      </Panel>
+
       {/* modo */}
       <Panel>
         <h2 className="mb-3 text-lg font-bold">{t.local.elegirModo}</h2>
-        <SelectorModo modo={config.modo} onElegir={elegirModo} />
+        <SelectorModo
+          modo={config.modo}
+          onElegir={(m) => {
+            setPresetActivo(null);
+            elegirModo(m);
+          }}
+        />
       </Panel>
 
       {/* packs */}
